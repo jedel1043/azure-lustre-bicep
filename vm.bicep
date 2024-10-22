@@ -69,9 +69,9 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2020-11-01' = {
           subnet: {
             id: vnet.properties.subnets[0].id
           }
-          publicIPAddress: {
-            id: public ? publicIPAddress.id : null
-          }
+          publicIPAddress: public ? {
+            id: publicIPAddress.id
+          } : null
         }
       }
     ]
@@ -129,4 +129,4 @@ resource ubuntuVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
   }
 }
 
-output sshAddress string = public ? '${adminUsername}@${publicIPAddress.properties.ipAddress}' : '${adminUsername}@${networkInterface.properties.ipConfigurations[0].properties.privateIPAddress}'
+output sshAddress string = public ? '${adminUsername}@${publicIPAddress.properties.dnsSettings.fqdn}' : '${adminUsername}@${networkInterface.properties.ipConfigurations[0].properties.privateIPAddress}'

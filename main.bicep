@@ -30,7 +30,7 @@ module mainVM 'vm.bicep' = {
     virtualNetworkName: lustre.outputs.virtualNetworkName
     sshKey: sshKey
     vmName: 'lustre-main'
-    vmSize: 'Standard_B1ms'
+    vmSize: 'Standard_D2_v4'
     public: true
   }
 }
@@ -43,7 +43,7 @@ module computeVms 'vm.bicep' = [for i in range(0, clusterSize): {
       virtualNetworkName: lustre.outputs.virtualNetworkName
       sshKey: sshKey
       vmName: 'computeVM-${i}'
-      vmSize: 'Standard_D2_v3'
+      vmSize: 'Standard_D2_v4'
     }
 }]
 

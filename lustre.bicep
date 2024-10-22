@@ -51,7 +51,7 @@ resource lustreFs 'Microsoft.StorageCache/amlFilesystems@2024-03-01' = {
   location: location
   sku: {name: 'AMLFS-Durable-Premium-40'}
   properties: {
-    filesystemSubnet: virtualNetwork.properties.subnets[0].name
+    filesystemSubnet: virtualNetwork.properties.subnets[0].id
     maintenanceWindow: {
       dayOfWeek: 'Saturday'
       timeOfDayUTC: '22:00'
