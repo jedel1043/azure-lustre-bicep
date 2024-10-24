@@ -35,7 +35,8 @@ module mainVM 'vm.bicep' = {
   }
 }
 
-module computeVms 'vm.bicep' = [for i in range(0, clusterSize): {
+module computeVms 'vm.bicep' = [
+  for i in range(0, clusterSize): {
     name: 'computeVM${i}'
     scope: rg
     params: {
@@ -45,11 +46,14 @@ module computeVms 'vm.bicep' = [for i in range(0, clusterSize): {
       vmName: 'computeVM-${i}'
       vmSize: 'Standard_D2_v4'
     }
-}]
+  }
+]
 
 output mainVmSshAddress string = mainVM.outputs.sshAddress
-output computeVms array = [for i in range(0, clusterSize): {
-  name: computeVms[i].name
-  sshAddress: computeVms[i].outputs.sshAddress
-}]
+output computeVms array = [
+  for i in range(0, clusterSize): {
+    name: computeVms[i].name
+    sshAddress: computeVms[i].outputs.sshAddress
+  }
+]
 output mgsAddress string = lustre.outputs.mgsAddress

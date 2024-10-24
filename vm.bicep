@@ -1,4 +1,3 @@
-
 @description('Location of all resources')
 param location string = resourceGroup().location
 
@@ -24,8 +23,6 @@ param public bool = false
 @description('Vm size')
 param vmSize string
 
-
-
 var publicIpAddressName = '${vmName}PublicIP'
 
 var networkInterfaceName = '${vmName}NetInt'
@@ -42,11 +39,10 @@ resource networkSecurityGroup 'Microsoft.Network/networkSecurityGroups@2019-11-0
   name: networkSecurityGroupName
 }
 
-
 resource publicIPAddress 'Microsoft.Network/publicIPAddresses@2019-11-01' = if (public) {
   name: publicIpAddressName
   location: location
-  sku: {name: 'Basic'}
+  sku: { name: 'Basic' }
   properties: {
     publicIPAllocationMethod: 'Dynamic'
     publicIPAddressVersion: 'IPv4'
@@ -69,9 +65,11 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2020-11-01' = {
           subnet: {
             id: vnet.properties.subnets[0].id
           }
-          publicIPAddress: public ? {
-            id: publicIPAddress.id
-          } : null
+          publicIPAddress: public
+            ? {
+                id: publicIPAddress.id
+              }
+            : null
         }
       }
     ]
@@ -81,7 +79,6 @@ resource networkInterface 'Microsoft.Network/networkInterfaces@2020-11-01' = {
     enableAcceleratedNetworking: true
   }
 }
-
 
 resource ubuntuVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
   name: vmName
@@ -129,4 +126,6 @@ resource ubuntuVM 'Microsoft.Compute/virtualMachines@2020-12-01' = {
   }
 }
 
-output sshAddress string = public ? '${adminUsername}@${publicIPAddress.properties.dnsSettings.fqdn}' : '${adminUsername}@${networkInterface.properties.ipConfigurations[0].properties.privateIPAddress}'
+output sshAddress string = public
+  ? '${adminUsername}@${publicIPAddress.properties.dnsSettings.fqdn}'
+  : '${adminUsername}@${networkInterface.properties.ipConfigurations[0].properties.privateIPAddress}'
