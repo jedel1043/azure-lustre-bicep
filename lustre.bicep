@@ -65,4 +65,4 @@ resource lustreFs 'Microsoft.StorageCache/amlFilesystems@2024-03-01' = {
 
 output virtualNetworkName string = virtualNetwork.name 
 output networkSecurityGroupName string = networkSecurityGroup.name
-output filesystemName string = lustreFs.name
+output mgsAddress string = lustreFs.properties.clientInfo.mgsAddress

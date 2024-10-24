@@ -52,3 +52,4 @@ output computeVms array = [for i in range(0, clusterSize): {
   name: computeVms[i].name
   sshAddress: computeVms[i].outputs.sshAddress
 }]
+output mgsAddress string = lustre.outputs.mgsAddress
